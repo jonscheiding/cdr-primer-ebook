@@ -11,11 +11,7 @@ export default function generate(transformed, output) {
   const options = {
     title: 'Title',
     author: 'Author',
-    content: []
-    // content: Object.values(transformed.pages).map(p => ({
-    //   title: `Page ${p.index}`,
-    //   data: p.html
-    // }))
+    content: transformed
   };
 
   new Epub(options, output);

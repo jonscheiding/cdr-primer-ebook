@@ -40,7 +40,7 @@ export default function scrape() {
   }
 
   function processTocLink(data, error, res, done) {
-    data.html = res.$('.book-sec-main').html();
+    data.html = res.$('#main-content').html();
     done();
   }
 

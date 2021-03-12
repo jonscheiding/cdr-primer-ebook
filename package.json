@@ -11,7 +11,7 @@
     "start": "run-p start:watch start:server",
     "start:unzip": "rimraf ./build/unzipped && unzip -o -d ./build/unzipped build/generated.epub",
     "start:server": "serve -s build/unzipped/OEBPS",
-    "start:html": "run-s build:generate start:unzip",
+    "start:html": "run-s build:transform build:generate start:unzip",
     "start:watch": "nodemon --ignore build/ -e js,css,json --exec yarn run start:html"
   },
   "dependencies": {
