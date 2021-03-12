@@ -13,7 +13,7 @@
     "start:unzip": "rimraf ./build/unzipped && unzip -o -d ./build/unzipped build/generated.epub",
     "start:server": "serve -s -l tcp://127.0.0.1:5100 build/unzipped/OEBPS",
     "start:html": "run-s build:transform build:generate start:unzip",
-    "start:watch": "nodemon --ignore build/ -e js,css,json --exec yarn run start:html"
+    "start:watch": "nodemon --ignore build/ -e ejs,js,css,json --exec yarn run start:html"
   },
   "dependencies": {
     "@babel/core": "^7.13.8",
@@ -21,6 +21,7 @@
     "@babel/preset-env": "^7.13.9",
     "cheerio": "^1.0.0-rc.5",
     "crawler": "^1.3.0",
+    "ejs": "^3.1.6",
     "envalid": "^7.0.0",
     "epub-gen": "^0.1.0",
     "yargs": "^16.2.0"

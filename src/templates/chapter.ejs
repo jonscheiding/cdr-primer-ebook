@@ -1,0 +1,69 @@
+<div>
+  <% for(const section of sections) { %>
+    <a name="<%= section.id %>"></a>
+    <section>
+      <h1><%= section.num %> <%= section.title %></h1>
+      <%
+        switch(section.type) {
+          case 'content':
+            for(const content of section.contents) {
+              switch(content.type) {
+                case 'html':
+                  %><%- content.html %><%
+                  break;
+                case 'figure':
+                  %>
+                    <div class="figure">
+                      <h2><%= content.figure.label %> <%= content.figure.num %></h2>
+                      <p class="caption"><%= content.figure.caption %></p>
+                      <% if (content.figure.src) { %>
+                        <!-- <img src="<%= content.figure.src %>" alt="<%= content.figure.alt %>" /> -->
+                      <% } else { %>
+                        <div class="html">
+                          <%- content.figure.html %>
+                        </div>
+                      <% } %>
+                    </div>
+                  <%
+                  break;
+              }
+            }
+            break;
+          case 'concepts':
+            %><p><%= section.intro %></p><%
+            for(const category of section.categories) {
+              %>
+              <div class="concepts">
+                <h2><%= category.heading %></h2>
+                <div class="definitions">
+                  <%
+                  for(const definition of category.definitions) {
+                    %>
+                    <div class="definition">
+                      <h3><%= definition.term %></h3>
+                      <p><%= definition.definition %></p>
+                    </div>
+                    <%
+                  }
+                  %>
+                </div>
+              </div>
+              <%
+            }
+            break;
+          case 'definitions':
+            for(const definition of section.definitions) {
+              %>
+              <div class="definition">
+                <h3><%= definition.term %></h3>
+                <p><%= definition.definition %></p>
+              </div>
+              <%
+            }
+            break;
+        }
+      %>
+    </section>
+    <%
+  } %>
+</div>
