@@ -4,6 +4,13 @@
  */
 
 /**
+ * @typedef {Object} Metadata
+ * @property {string} title
+ * @property {string} author
+ * @property {string} description
+ */
+
+/**
  * @typedef {Object} ScrapedPage
  * @property {string} html
  * @property {int} index
@@ -15,6 +22,7 @@
  * @typedef {Object} ScrapedData
  * @property {string} baseUrl
  * @property {ScrapedToc} toc
+ * @property {Metadata} metadata
  * @property {Object.<string, ScrapedPage>} pages
  */
 
@@ -64,7 +72,9 @@
  */
 
 /**
- * @typedef {Array<Chapter>} TransformedData
+ * @typedef {Object} TransformedData
+ * @property {Array<Chapter>} chapters
+ * @property {Metadata} metadata
  */
 
 export default {};

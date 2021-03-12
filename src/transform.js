@@ -14,7 +14,7 @@ export default function transform(scraped) {
   /**
    * @type {TransformedData}
    */
-  const transformed = Object.values(scraped.pages).map(p => {
+  const chapters = Object.values(scraped.pages).map(p => {
     const $page = $.load(p.html);
     const title = $page('.book-pg-header h1').text().trim();
 
@@ -47,7 +47,7 @@ export default function transform(scraped) {
     return { title, authors, sections, num: p.num, id: cleanHref(p.href) };
   });
 
-  return transformed;
+  return { chapters, metadata: scraped.metadata };
 }
 
 function cleanHref(url) {

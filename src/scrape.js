@@ -21,6 +21,12 @@ export default function scrape() {
 
   function processToc(error, res, done) {
     const $ = res.$;
+    
+    data.metadata = {
+      title: $('meta[property="og:site_name"]').attr('content'),
+      author: $('meta[name=author]').attr('content'),
+      description: $('meta[name=description]').attr('description')
+    };
 
     data.toc = { html: $('.toc').html() };
     data.pages = {};
