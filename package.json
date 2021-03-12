@@ -4,18 +4,31 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "babel-node src/cli",
-    "scrape": "babel-node src/cli scrape > ./data/scraped.json"
+    "cli": "babel-node src/cli",
+    "prepare:scrape": "babel-node src/cli scrape > ./build/scraped.json",
+    "build:transform": "babel-node src/cli transform --input ./build/scraped.json > ./build/transformed.json",
+    "build:generate": "babel-node src/cli generate --input ./build/transformed.json --output ./build/generated.epub",
+    "start": "run-p start:watch start:server",
+    "start:unzip": "rimraf ./build/unzipped && unzip -o -d ./build/unzipped build/generated.epub",
+    "start:server": "serve -s build/unzipped/OEBPS",
+    "start:html": "run-s build:generate start:unzip",
+    "start:watch": "nodemon --ignore build/ -e js,css,json --exec yarn run start:html"
   },
   "dependencies": {
     "@babel/core": "^7.13.8",
     "@babel/node": "^7.13.0",
     "@babel/preset-env": "^7.13.9",
+    "cheerio": "^1.0.0-rc.5",
     "crawler": "^1.3.0",
     "envalid": "^7.0.0",
+    "epub-gen": "^0.1.0",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
-    "eslint": "^7.21.0"
+    "eslint": "^7.21.0",
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
+    "serve": "^11.3.2"
   }
 }

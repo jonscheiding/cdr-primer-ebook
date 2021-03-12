@@ -16,4 +16,8 @@
  * @property {Object.<string, ScrapedPage>} pages
  */
 
+/**
+ * @typedef {ScrapedData} TransformedData
+ */
+
 export default {};
