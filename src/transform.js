@@ -23,6 +23,8 @@ export default function transform(scraped) {
     fixImages($page, scraped.baseUrl);
     fixLinks($page, scraped.baseUrl);
 
+    $page('.sidenote-btn').remove();
+
     let authors = $page('section.contributors .authors')
       .text().trim();
 
