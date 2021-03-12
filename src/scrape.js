@@ -1,42 +1,46 @@
+import { cleanEnv, str } from 'envalid';
 import Crawler from 'crawler';
+
+const env = cleanEnv(process.env, {
+  CONTENT_URL: str()
+});
 
 const crawler = new Crawler();
 
-const baseUrl = new URL('https://cdrprimer.org/read');
+const baseUrl = new URL(env.CONTENT_URL);
 
 crawler.queue({
   uri: baseUrl,
   callback: processToc
 });
 
-const sections = [];
+const data = {};
 
 function processToc(error, res, done) {
   const $ = res.$;
 
-  $('.mobile.toc .book-link').each((index, e) => {
-    const num = $('.num-col', e).text().trim();
+  data.toc = { html: $('.toc').html() };
+  data.pages = {};
+
+  $('.toc .book-link').each((index, e) => {
     const href = $('.chap-link', e).attr('href');
     const url = new URL(href, baseUrl);
-    const data = {num, index};
-
-    sections.push(data);
+    const page = data.pages[href] = {index, href};
 
     crawler.queue({
       uri: url,
-      callback: (error, res, done) => processNonChapter(data, error, res, done)
+      callback: (error, res, done) => processTocLink(page, error, res, done)
     });
   });
 
   done();
 }
 
-function processNonChapter(data, error, res, done) {
+function processTocLink(data, error, res, done) {
   data.html = res.$('.book-sec-main').html();
-  data.title = res.$('.book-pg-header').text().trim();
   done();
 }
 
 crawler.on('drain', () => {
-  console.log(JSON.stringify(sections, null, '  '));
+  console.log(JSON.stringify(data, null, '  '));
 });
