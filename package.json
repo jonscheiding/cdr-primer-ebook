@@ -8,6 +8,7 @@
     "prepare:scrape": "babel-node src/cli scrape > ./build/scraped.json",
     "build:transform": "babel-node src/cli transform --input ./build/scraped.json > ./build/transformed.json",
     "build:generate": "babel-node src/cli generate --input ./build/transformed.json --output ./build/generated.epub",
+    "build:babel": "babel src -d build/dist --source-maps",
     "start": "run-p start:watch start:server",
     "start:unzip": "rimraf ./build/unzipped && unzip -o -d ./build/unzipped build/generated.epub",
     "start:server": "serve -s -l tcp://127.0.0.1:5100 build/unzipped/OEBPS",
@@ -25,6 +26,7 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.13.10",
     "eslint": "^7.21.0",
     "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
