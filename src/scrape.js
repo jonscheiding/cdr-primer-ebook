@@ -1,6 +1,13 @@
 import { cleanEnv, str } from 'envalid';
 import Crawler from 'crawler';
 
+/**
+ * @typedef {import('./types.js').ScrapedData} ScrapedData
+ */
+
+/**
+ * @return {Promise<ScrapedData>}
+ */
 export default function scrape() {
   const env = cleanEnv(process.env, {
     CONTENT_URL: str()
@@ -8,6 +15,8 @@ export default function scrape() {
 
   const crawler = new Crawler();
   const baseUrl = new URL(env.CONTENT_URL);
+
+  /** @type ScrapedData */
   const data = {};
 
   function processToc(error, res, done) {
