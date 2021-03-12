@@ -10,7 +10,7 @@
     "build:generate": "babel-node src/cli generate --input ./build/transformed.json --output ./build/generated.epub",
     "start": "run-p start:watch start:server",
     "start:unzip": "rimraf ./build/unzipped && unzip -o -d ./build/unzipped build/generated.epub",
-    "start:server": "serve -s build/unzipped/OEBPS",
+    "start:server": "serve -s -l tcp://127.0.0.1:5100 build/unzipped/OEBPS",
     "start:html": "run-s build:transform build:generate start:unzip",
     "start:watch": "nodemon --ignore build/ -e js,css,json --exec yarn run start:html"
   },

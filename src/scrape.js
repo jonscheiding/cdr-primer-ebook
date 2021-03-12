@@ -17,7 +17,7 @@ export default function scrape() {
   const baseUrl = new URL(env.CONTENT_URL);
 
   /** @type ScrapedData */
-  const data = {};
+  const data = { baseUrl };
 
   function processToc(error, res, done) {
     const $ = res.$;

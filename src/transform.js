@@ -20,12 +20,21 @@ export default function transform(scraped) {
     const title = $page('.book-pg-header h1').text().trim();
 
     // TODO:
-    // $page('img:not([src])').each((i, img) => {
-    //   const imgData = eval($(img).parent().attr('x-data') + '-lt.png');
-    //   $(img).attr('src', imgData.imgPath);
-    // });
+    $page('img').each((i, img) => {
+      let src = $(img).attr('src');
+      if(!src) {
+        const imgData = eval('(' + $(img).parent().attr('x-data') + ')');
+        src = imgData.imgPath + '-lt.png';
+      }
 
-    $page('img:not([src])').remove();
+      src = new URL(src, scraped.baseUrl);
+      
+      $(img).replaceWith(
+        $('<img />')
+          .attr('src', src)
+          .attr('alt', $(img).attr('alt'))
+      );
+    });
 
     const data = $page('.book-sec-sub').html() || '';
 

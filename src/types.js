@@ -12,6 +12,7 @@
 
 /**
  * @typedef {Object} ScrapedData
+ * @property {string} baseUrl
  * @property {ScrapedToc} toc
  * @property {Object.<string, ScrapedPage>} pages
  */
