@@ -23,6 +23,11 @@ export default function transform(scraped) {
     fixImages($page, scraped.baseUrl);
     fixLinks($page, scraped.baseUrl);
 
+    let authors = $page('section.contributors .authors')
+      .text().trim();
+
+    if(authors === '') authors = null;
+
     $page('main section').each((i, section) => {
       if($(section).is('.concepts')) {
         sections.push(parseConceptsSection($(section)));
@@ -34,10 +39,12 @@ export default function transform(scraped) {
         return;
       }
 
-      sections.push(parseContentSection($(section)));
+      const contentSection = parseContentSection($(section));
+      if(contentSection.contents.length === 0) return;
+      sections.push(contentSection);
     });
 
-    return { title, sections, num: p.num, id: cleanHref(p.href) };
+    return { title, authors, sections, num: p.num, id: cleanHref(p.href) };
   });
 
   return transformed;
@@ -108,7 +115,7 @@ function parseDefinitions($defs) {
 function parseFigure($figure) {
   $('.num-col h2 span', $figure).remove();
   const num = $('.num-col h2', $figure).text().trim();
-  const label = $('.num-col strong', $figure).text().trim();
+  const label = $('.num-col > strong', $figure).text().trim();
   const caption = $('.caption.lg-only', $figure).text().trim();
   const src = $('img', $figure).attr('src');
   const html = $.html($('.box', $figure));

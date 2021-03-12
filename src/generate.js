@@ -15,6 +15,7 @@ export default function generate(transformed, output) {
 
   const content = transformed.map(t => ({
     title: t.title,
+    author: t.authors,
     data: chapter(t),
     filename: t.id
   }));

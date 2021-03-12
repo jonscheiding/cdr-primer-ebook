@@ -57,6 +57,7 @@
 /**
  * @typedef {Object} Chapter
  * @property {string} title
+ * @property {string} authors
  * @property {string} num
  * @property {string} id
  * @property {Array<Section>} sections
