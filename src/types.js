@@ -7,6 +7,7 @@
  * @typedef {Object} ScrapedPage
  * @property {string} html
  * @property {int} index
+ * @property {string} num
  * @property {string} href
  */
 

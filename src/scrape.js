@@ -27,8 +27,9 @@ export default function scrape() {
 
     $('.toc .book-link').each((index, e) => {
       const href = $('.chap-link', e).attr('href');
+      const num = $('.num-col', e).first().text().trim();
       const url = new URL(href, baseUrl);
-      const page = data.pages[href] = {index, href};
+      const page = data.pages[href] = {index, href, num};
 
       crawler.queue({
         uri: url,
