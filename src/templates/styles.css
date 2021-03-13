@@ -1,0 +1,23 @@
+body {
+  text-align: justify;
+}
+
+.figure {
+  background-color: #f2f3f5;
+}
+
+.figure .caption {
+  font-style: italic;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.concepts, section {
+  border-top: 1px solid lightgray;
+}
+
+.authors {
+  font-style: italic;
+}
