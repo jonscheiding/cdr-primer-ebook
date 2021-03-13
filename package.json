@@ -5,15 +5,21 @@
   "license": "MIT",
   "scripts": {
     "cli": "babel-node src/cli",
+    "prepare": "yarn prepare:scrape",
     "prepare:scrape": "babel-node src/cli scrape > ./build/scraped.json",
+    "build": "run-s build:transform build:generate:epub build:generate:mobi",
     "build:transform": "babel-node src/cli transform --input ./build/scraped.json > ./build/transformed.json",
-    "build:generate": "babel-node src/cli generate --input ./build/transformed.json --output ./build/generated.epub",
+    "build:generate:epub": "babel-node src/cli generate --input ./build/transformed.json --output ./build/generated.epub",
+    "build:generate:mobi": "ebook-convert ./build/generated.epub ./build/generated.mobi",
     "build:babel": "babel src -d build/dist --source-maps",
     "start": "run-p start:watch start:server",
     "start:unzip": "rimraf ./build/unzipped && unzip -o -d ./build/unzipped build/generated.epub",
     "start:server": "serve -s -l tcp://127.0.0.1:5100 build/unzipped/OEBPS",
-    "start:html": "run-s build:transform build:generate start:unzip",
-    "start:watch": "nodemon --ignore build/ -e ejs,js,css,json --exec yarn run start:html"
+    "start:html": "run-s build:transform build:generate:epub start:unzip",
+    "start:watch": "nodemon --ignore build/ -e ejs,js,css,json --exec yarn run start:html",
+    "push": "run-s build push:nobuild",
+    "push:nobuild": "yarn build:generate:mobi && tools/push-to-kindle build/generated.mobi",
+    "lint": "eslint src"
   },
   "dependencies": {
     "@babel/core": "^7.13.8",

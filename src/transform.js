@@ -24,6 +24,7 @@ export default function transform(scraped) {
     fixLinks($page, scraped.baseUrl);
 
     $page('.sidenote-btn').remove();
+    $page('li > p').each((i, p) => $(p).replaceWith($(p).html()));
 
     let authors = $page('section.contributors .authors')
       .text().trim();
@@ -74,7 +75,11 @@ function parseContentSection($section) {
         return { type: 'concepts' };
       }
 
-      return { type: 'html', html: $.html(content) };
+      return { 
+        type: 'html', 
+        html: $.html(content)
+          .replace(/&nbsp;/g, ' ')
+      };
     });
 
   return { id, contents, title, num, type: 'content' };
@@ -120,7 +125,8 @@ function parseFigure($figure) {
   const label = $('.num-col > strong', $figure).text().trim();
   const caption = $('.caption.lg-only', $figure).text().trim();
   const src = $('img', $figure).attr('src');
-  const html = $.html($('.box', $figure));
+  const html = $.html($('.box', $figure))
+    .replace(/&nbsp;/g, ' ');
 
   return { type: 'figure', figure: { num, label, html, caption, src } };
 }
