@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- '12'
+before_install:
+- sudo apt-get update
+- sudo apt-get -y install calibre
+script:
+- yarn lint
+- yarn build
+env:
+- CONTENT_URL=https://cdrprimer.org/read
